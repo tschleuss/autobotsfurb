@@ -1,0 +1,10 @@
+module autobots {
+
+
+  interface autobots {
+
+    boolean soma_int(in short p1, in short p2, out short ret);
+
+  };
+
+};
