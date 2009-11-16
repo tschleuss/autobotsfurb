@@ -4,7 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import rpc.enumeration.TipoTerreno;
+import com.enumeration.TipoTerreno;
+
 import rpc.structs.*;
 import netbula.ORPC.*;
 

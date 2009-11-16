@@ -1,9 +1,9 @@
 module autobots {
 
-
+	
   interface autobots {
 
-    boolean soma_int(in short p1, in short p2, out short ret);
+    boolean getBoxPosition(in string caminho, in short botPosX, in short botPosY, out short boxPosX, out short boxPosY);
 
   };
 

@@ -15,10 +15,12 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import com.enumeration.TipoTerreno;
+
 import rmi.interfaces.Map;
 import rmi.structs.Caminho;
 import rmi.structs.Passo;
-import rpc.enumeration.TipoTerreno;
+import client.CliAutobotsCorba;
 import client.CliAutobotsRMI;
 import client.engine.GameMap;
 import client.engine.Movimento;
@@ -33,16 +35,19 @@ public class GameView extends JPanel {
 
 	private GameMap map;					// O mapa onde a unidades irão se mover
 	private Caminho path;						// O ultimo caminho encontrado para o robo
-	private Image[] tiles = new Image[4];	// Lista das imagens para renderizar
+	private Image[] tiles = new Image[5];	// Lista das imagens para renderizar
 	private Image buffer;					// Buffer para renderização
 	private int selectedx = -1;				// Coordenadas X do robo selecionado ou -1 para nada selecionado
 	private int selectedy = -1;				// Coordenadas Y do robo selecionado ou -1 para nada selecionado
 	private int lastFindX = -1;				// Coordenada X do alvo do ultimo caminho - usado para evitar novas buscas (cache)
 	private int lastFindY = -1;				// Coordenada Y do alvo do ultimo caminho - usado para evitar novas buscas (cache)
 	private CliAutobotsRMI autobotsRMI_cln;
+	private CliAutobotsCorba autobotsCORBA_cln;
 	private Movimento mov;
 	
 	private Caminho caminhoTerrenoSelected;
+	private Passo box;
+	
 	private List<Passo> pathsTraveled;
 
 	public GameView() 
@@ -64,6 +69,7 @@ public class GameView extends JPanel {
 			tiles[TipoTerreno.GRASS.getType()] = ImageIO.read(getResource("client/resource/grass.png"));
 			tiles[TipoTerreno.WATER.getType()] = ImageIO.read(getResource("client/resource/water.png"));
 			tiles[TipoTerreno.ROBOT.getType()] = ImageIO.read(getResource("client/resource/megaman.png"));
+			tiles[TipoTerreno.BOX.getType()] = ImageIO.read(getResource("client/resource/box.png"));
 		} 
 		catch (IOException e) {
 			System.err.println("Falhou ao carregar os recursos: " + e.getMessage() );
@@ -79,6 +85,7 @@ public class GameView extends JPanel {
 			map = new GameMap(serverHost);
 			
 			autobotsRMI_cln = new CliAutobotsRMI(map, serverHost);
+			autobotsCORBA_cln = new CliAutobotsCorba(serverHost);
 		} 
 		else {
 			
@@ -253,6 +260,10 @@ public class GameView extends JPanel {
 			g.fillRect((caminhoTerrenoSelected.getX(caminhoMax)*ICON_WIDTH)+4, (caminhoTerrenoSelected.getY(caminhoMax)*ICON_WIDTH)+4,7,7);			
 		}
 		
+		if(box != null){
+			g.drawImage(tiles[TipoTerreno.BOX.getType()],box.getX()*ICON_WIDTH,box.getY()*ICON_WIDTH,null);
+		}
+		
 		//Desenha, se necessario, os caminhos acessados
 		if(pathsTraveled != null) {
 			for( Passo s : pathsTraveled ) {
@@ -269,6 +280,10 @@ public class GameView extends JPanel {
 		return this.autobotsRMI_cln;
 	}
 	
+	public CliAutobotsCorba getClienteCorba(){
+		return this.autobotsCORBA_cln;
+	}	
+	
 	public int currentX(){
 		return this.selectedx;
 	}
@@ -283,6 +298,10 @@ public class GameView extends JPanel {
 
 	public void setCaminhoTerrenoSelected(Caminho caminhoTerrenoSelected) {
 		this.caminhoTerrenoSelected = caminhoTerrenoSelected;
+	}
+	
+	public void setBox(int x, int y){
+		this.box = new Passo(x, y);
 	}
 
 	public Caminho getCaminhoTerrenoSelected() {

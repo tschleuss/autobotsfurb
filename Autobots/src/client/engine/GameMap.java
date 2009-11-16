@@ -2,10 +2,11 @@ package client.engine;
 
 import java.io.Serializable;
 
+import com.enumeration.TipoTerreno;
+
 import netbula.ORPC.rpc_err;
 import rmi.interfaces.Mover;
 import rmi.interfaces.Map;
-import rpc.enumeration.TipoTerreno;
 import rpc.structs.botPosition;
 import server.heuristica.UnitMover;
 import client.CliAutobotsRPC;

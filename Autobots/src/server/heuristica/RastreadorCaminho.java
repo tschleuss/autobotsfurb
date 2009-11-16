@@ -76,11 +76,11 @@ public class RastreadorCaminho implements Rastreador {
 						continue;
 					}
 					
-					if (!allowDiagMovement) {
+					//if (!allowDiagMovement) {
 						if ((x != 0) && (y != 0)) {
 							continue;
 						}
-					}
+					//}
 
 					int xp = x + current.x;
 					int yp = y + current.y;

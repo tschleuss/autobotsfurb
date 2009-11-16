@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.enumeration.TipoTerreno;
+
 import rmi.interfaces.Map;
 import rmi.structs.Passo;
-import rpc.enumeration.TipoTerreno;
-import client.engine.GameMap;
 
 public class BuscaElemento {
 

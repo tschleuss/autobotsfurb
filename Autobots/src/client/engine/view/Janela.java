@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.GroupLayout;
@@ -14,10 +13,13 @@ import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
 
+import com.enumeration.TipoTerreno;
+
+import client.CliAutobotsCorba;
+
 import netbula.ORPC.rpc_err;
 import rmi.structs.Caminho;
 import rmi.structs.Passo;
-import rpc.enumeration.TipoTerreno;
 import rpc.structs.mapLayoutPercent;
 
 public class Janela extends JFrame {
@@ -26,6 +28,7 @@ public class Janela extends JFrame {
 	public static final int SCREEN_HEIGHT = 569;
 	
 	private GameView gameView = null;
+	private JButton botaoCaixa = null;
 	private JButton botaoAgua = null;
 	private JButton botaoArvore = null;
 	private JButton botaoCaminhos = null;
@@ -49,11 +52,13 @@ public class Janela extends JFrame {
 	private void initComponents() 
 	{
 		gameView	= new GameView();	//JPanel onde é desenhado o mapa
+		botaoCaixa	= new JButton();
         botaoAgua	= new JButton();	//Botoes da tela
         botaoArvore = new JButton();	//Botoes da tela
         botaoCaminhos	= new JButton();	//Botoes da tela
         botaoMapPercent	= new JButton();	//Botoes da tela        
 
+        botaoCaixa.setText("Criar caixa");
         botaoAgua.setText("Buscar Água");
         botaoArvore.setText("Buscar Árvore");
         botaoCaminhos.setText("Casas visitadas");
@@ -81,7 +86,10 @@ public class Janela extends JFrame {
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(botaoArvore)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botaoAgua)))
+                        .addComponent(botaoAgua))
+                    .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(botaoCaixa))                        
+                	)                    
                 .addContainerGap())
         );
         
@@ -96,6 +104,8 @@ public class Janela extends JFrame {
                     .addComponent(botaoArvore)
                     .addComponent(botaoCaminhos)
                     .addComponent(botaoMapPercent))
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                	.addComponent(botaoCaixa))          
                 .addContainerGap())
         );
 
@@ -108,6 +118,12 @@ public class Janela extends JFrame {
 	 * ao serem clicados
 	 */
 	private void bindingListeners() {
+		
+		botaoCaixa.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+            	botaoCaixaHandler(evt);
+            }
+        });		
 		
 		botaoAgua.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -158,6 +174,18 @@ public class Janela extends JFrame {
 		//CHAMA AS FUNCOES DO BOTAO ARVORE
 		JOptionPane.showMessageDialog(this, "Procurando arvore !");
 		getFasterWay(TipoTerreno.TREES);
+	}
+	
+	
+	private void botaoCaixaHandler(ActionEvent evt)
+	{ 
+		CliAutobotsCorba cliente	= this.gameView.getClienteCorba();
+		String mapString			= this.gameView.getMap().getClienteRPC().getMapString();
+		
+		int[] botPos = cliente.getBoxPosition(mapString, String.valueOf(this.gameView.getX()), String.valueOf(this.gameView.getY()));
+		
+		this.gameView.setBox(botPos[0], botPos[1]);
+		this.gameView.repaint(0);
 	}
 	
 	private void getFasterWay(TipoTerreno type){

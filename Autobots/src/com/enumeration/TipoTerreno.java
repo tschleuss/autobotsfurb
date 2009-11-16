@@ -1,11 +1,12 @@
-package rpc.enumeration;
+package com.enumeration;
 
 public enum TipoTerreno {
 
 	GRASS (0),
 	WATER (1),
 	TREES (2), 
-	ROBOT (3);
+	ROBOT (3),
+	BOX   (4);	
 	
 	private int type;
 	

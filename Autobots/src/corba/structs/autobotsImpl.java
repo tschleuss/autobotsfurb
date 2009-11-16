@@ -1,13 +1,38 @@
 package corba.structs;
 
-import autobotsPOA;
+import org.omg.CORBA.ShortHolder;
 
-class autobotsImpl extends autobotsPOA {  
+import com.enumeration.TipoTerreno;
 
-  public boolean soma_int (short p1, short p2, org.omg.CORBA.ShortHolder ret) {
-	  ret.value = new Integer(p1 + p2).shortValue();
-	  System.out.println("Executada Soma");
-	  return true;
-  };
+import corba.structs.autobots.autobotsPOA;
+
+public class autobotsImpl extends autobotsPOA {  
+
+	public boolean getBoxPosition(String caminho, short botPosX, short botPosY,
+			ShortHolder boxPosX, ShortHolder boxPosY) {
+		
+		String map[] = caminho.split("\n");
+		
+		int randomX,randomY,randomPos;
+		String mapLine;
+		boolean validpos = false;
+		
+		while(!validpos){
+			
+			randomX = (int)(Math.random() * 30);
+			mapLine = map[randomX].replaceAll("\\s", "");
+			randomY = (int)(Math.random() * 30);
+			
+			randomPos = Integer.parseInt(Character.toString(mapLine.charAt(randomY)));
+			
+			if(randomPos == TipoTerreno.GRASS.getType()){
+				
+				boxPosX.value = new Integer(randomX).shortValue();
+				boxPosY.value = new Integer(randomY).shortValue();
+				return true;
+			}
+		}
+		return false;
+	};
 
 }

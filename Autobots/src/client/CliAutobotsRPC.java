@@ -41,7 +41,11 @@ public class CliAutobotsRPC implements Serializable{
 		}    	
     	
 		return map;	
-    }	
+    }
+    
+    public String getMapString(){
+    	return this.mc.caminho;
+    }
     	
     public botPosition getBot() throws rpc_err{
 		this.bp = bot.getBotPosition();

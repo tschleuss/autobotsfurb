@@ -3,11 +3,12 @@ package client;
 import java.rmi.Naming;
 import java.util.List;
 
+import com.enumeration.TipoTerreno;
+
 import rmi.interfaces.Autobots;
 import rmi.interfaces.Map;
 import rmi.structs.Caminho;
 import rmi.structs.Passo;
-import rpc.enumeration.TipoTerreno;
 import server.heuristica.UnitMover;
 import client.engine.GameMap;
 
