@@ -35,7 +35,7 @@ public class GameView extends JPanel {
 
 	private GameMap map;					// O mapa onde a unidades irão se mover
 	private Caminho path;						// O ultimo caminho encontrado para o robo
-	private Image[] tiles = new Image[5];	// Lista das imagens para renderizar
+	private Image[] tiles = new Image[6];	// Lista das imagens para renderizar
 	private Image buffer;					// Buffer para renderização
 	private int selectedx = -1;				// Coordenadas X do robo selecionado ou -1 para nada selecionado
 	private int selectedy = -1;				// Coordenadas Y do robo selecionado ou -1 para nada selecionado
@@ -47,6 +47,7 @@ public class GameView extends JPanel {
 	
 	private Caminho caminhoTerrenoSelected;
 	private Passo box;
+	private Passo goal;	
 	
 	private List<Passo> pathsTraveled;
 
@@ -70,6 +71,7 @@ public class GameView extends JPanel {
 			tiles[TipoTerreno.WATER.getType()] = ImageIO.read(getResource("client/resource/water.png"));
 			tiles[TipoTerreno.ROBOT.getType()] = ImageIO.read(getResource("client/resource/megaman.png"));
 			tiles[TipoTerreno.BOX.getType()] = ImageIO.read(getResource("client/resource/box.png"));
+			tiles[TipoTerreno.GOAL.getType()] = ImageIO.read(getResource("client/resource/goal.png"));
 		} 
 		catch (IOException e) {
 			System.err.println("Falhou ao carregar os recursos: " + e.getMessage() );
@@ -264,6 +266,10 @@ public class GameView extends JPanel {
 			g.drawImage(tiles[TipoTerreno.BOX.getType()],box.getX()*ICON_WIDTH,box.getY()*ICON_WIDTH,null);
 		}
 		
+		if(goal != null){
+			g.drawImage(tiles[TipoTerreno.GOAL.getType()],goal.getX()*ICON_WIDTH,goal.getY()*ICON_WIDTH,null);
+		}		
+		
 		//Desenha, se necessario, os caminhos acessados
 		if(pathsTraveled != null) {
 			for( Passo s : pathsTraveled ) {
@@ -301,8 +307,12 @@ public class GameView extends JPanel {
 	}
 	
 	public void setBox(int x, int y){
-		this.box = new Passo(x, y);
+		this.box = new Passo(y, x);
 	}
+
+	public void setGoal(int x, int y) {
+		this.goal = new Passo(y, x);
+	}	
 
 	public Caminho getCaminhoTerrenoSelected() {
 		return caminhoTerrenoSelected;

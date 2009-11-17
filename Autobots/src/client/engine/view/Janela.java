@@ -15,6 +15,8 @@ import javax.swing.WindowConstants;
 
 import com.enumeration.TipoTerreno;
 
+import corba.structs.autobots.boxAndGoalConfig;
+
 import client.CliAutobotsCorba;
 
 import netbula.ORPC.rpc_err;
@@ -182,9 +184,10 @@ public class Janela extends JFrame {
 		CliAutobotsCorba cliente	= this.gameView.getClienteCorba();
 		String mapString			= this.gameView.getMap().getClienteRPC().getMapString();
 		
-		int[] botPos = cliente.getBoxPosition(mapString, String.valueOf(this.gameView.getX()), String.valueOf(this.gameView.getY()));
+		boxAndGoalConfig bAg = cliente.getBoxPosition(mapString, String.valueOf(this.gameView.getX()), String.valueOf(this.gameView.getY()));
 		
-		this.gameView.setBox(botPos[0], botPos[1]);
+		this.gameView.setBox(bAg.boxPosX, bAg.boxPosY);
+		this.gameView.setGoal(bAg.goalPosX, bAg.goalPosY);
 		this.gameView.repaint(0);
 	}
 	

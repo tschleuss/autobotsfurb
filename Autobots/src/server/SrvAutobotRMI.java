@@ -16,7 +16,6 @@ import rmi.structs.Passo;
 import server.heuristica.RastreadorCaminho;
 import server.heuristica.UnitMover;
 import server.heuristica.busca.BuscaElemento;
-import client.engine.GameMap;
 
 public class SrvAutobotRMI extends UnicastRemoteObject implements Autobots {
 	

@@ -7,6 +7,7 @@ import org.omg.CosNaming.NamingContextExtHelper;
 
 import corba.structs.autobots.autobots;
 import corba.structs.autobots.autobotsHelper;
+import corba.structs.autobots.boxAndGoalConfig;
 
 public class CliAutobotsCorba {
 
@@ -34,19 +35,12 @@ public class CliAutobotsCorba {
 	      }	
 	}
 	
-	public int[] getBoxPosition(String map, String x, String y){
+	public boxAndGoalConfig getBoxPosition(String map, String x, String y){
 		
 		short botPosX = new Short(x).shortValue();
 		short botPosY = new Short(y).shortValue();
-		  
-		ShortHolder boxPosX = new ShortHolder(); 
-		ShortHolder boxPosY = new ShortHolder(); 
 		
-		autobot.getBoxPosition(map, botPosX, botPosY, boxPosX, boxPosY);
-		
-		int[] pos= {boxPosX.value, boxPosY.value};
-		
-		return pos;
+		return autobot.getBoxPosition(map, botPosX, botPosY);
 	}
 	
 }
