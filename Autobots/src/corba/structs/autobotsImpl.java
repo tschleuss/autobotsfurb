@@ -9,8 +9,8 @@ import com.structs.Caminho;
 import com.structs.GameMap;
 import com.structs.Passo;
 
-import corba.structs.autobots.autobotsPOA;
-import corba.structs.autobots.boxAndGoalConfig;
+import corba.structs.autobotsa.autobotsPOA;
+import corba.structs.autobotsa.boxAndGoalConfig;
 
 public class autobotsImpl extends autobotsPOA {  
 

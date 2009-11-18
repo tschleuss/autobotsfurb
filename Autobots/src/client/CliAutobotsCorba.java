@@ -7,9 +7,9 @@ import org.omg.CosNaming.NamingContextExtHelper;
 
 import com.structs.Caminho;
 
-import corba.structs.autobots.autobots;
-import corba.structs.autobots.autobotsHelper;
-import corba.structs.autobots.boxAndGoalConfig;
+import corba.structs.autobotsa.autobots;
+import corba.structs.autobotsa.autobotsHelper;
+import corba.structs.autobotsa.boxAndGoalConfig;
 
 public class CliAutobotsCorba {
 
