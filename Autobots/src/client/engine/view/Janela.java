@@ -17,7 +17,7 @@ import com.enumeration.TipoTerreno;
 import com.structs.Caminho;
 import com.structs.Passo;
 
-import corba.structs.autobotsa.boxAndGoalConfig;
+import corba.structs.autobots.boxAndGoalConfig;
 
 import client.CliAutobotsCorba;
 

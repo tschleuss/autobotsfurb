@@ -5,8 +5,8 @@ import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 
 import corba.structs.autobotsImpl;
-import corba.structs.autobotsa.autobots;
-import corba.structs.autobotsa.autobotsHelper;
+import corba.structs.autobots.autobots;
+import corba.structs.autobots.autobotsHelper;
 
 
 public class SrvAutobotCorba 
