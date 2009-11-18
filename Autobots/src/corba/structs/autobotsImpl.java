@@ -2,7 +2,6 @@ package corba.structs;
 
 import server.heuristica.RastreadorCaminho;
 import server.heuristica.UnitMover;
-import server.heuristica.busca.BuscaElemento;
 
 
 import com.enumeration.TipoTerreno;
