@@ -1,4 +1,4 @@
-package rmi.structs;
+package com.structs;
 
 import java.io.Serializable;
 

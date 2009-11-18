@@ -16,13 +16,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.enumeration.TipoTerreno;
+import com.structs.Caminho;
+import com.structs.GameMap;
+import com.structs.Passo;
 
 import rmi.interfaces.Map;
-import rmi.structs.Caminho;
-import rmi.structs.Passo;
 import client.CliAutobotsCorba;
 import client.CliAutobotsRMI;
-import client.engine.GameMap;
 import client.engine.Movimento;
 
 public class GameView extends JPanel {
@@ -35,7 +35,7 @@ public class GameView extends JPanel {
 
 	private GameMap map;					// O mapa onde a unidades irão se mover
 	private Caminho path;						// O ultimo caminho encontrado para o robo
-	private Image[] tiles = new Image[6];	// Lista das imagens para renderizar
+	private Image[] tiles = new Image[7];	// Lista das imagens para renderizar
 	private Image buffer;					// Buffer para renderização
 	private int selectedx = -1;				// Coordenadas X do robo selecionado ou -1 para nada selecionado
 	private int selectedy = -1;				// Coordenadas Y do robo selecionado ou -1 para nada selecionado
@@ -47,7 +47,9 @@ public class GameView extends JPanel {
 	
 	private Caminho caminhoTerrenoSelected;
 	private Passo box;
-	private Passo goal;	
+	private Passo goal;
+	
+	private boolean isHoldingBox;
 	
 	private List<Passo> pathsTraveled;
 
@@ -72,6 +74,7 @@ public class GameView extends JPanel {
 			tiles[TipoTerreno.ROBOT.getType()] = ImageIO.read(getResource("client/resource/megaman.png"));
 			tiles[TipoTerreno.BOX.getType()] = ImageIO.read(getResource("client/resource/box.png"));
 			tiles[TipoTerreno.GOAL.getType()] = ImageIO.read(getResource("client/resource/goal.png"));
+			tiles[TipoTerreno.ROBOT_BOX.getType()] = ImageIO.read(getResource("client/resource/megaman_box.png"));
 		} 
 		catch (IOException e) {
 			System.err.println("Falhou ao carregar os recursos: " + e.getMessage() );

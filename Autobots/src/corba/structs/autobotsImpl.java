@@ -1,43 +1,23 @@
 package corba.structs;
 
-import org.omg.CORBA.ShortHolder;
+import server.heuristica.RastreadorCaminho;
+import server.heuristica.UnitMover;
+import server.heuristica.busca.BuscaElemento;
+
 
 import com.enumeration.TipoTerreno;
+import com.structs.Caminho;
+import com.structs.GameMap;
+import com.structs.Passo;
 
 import corba.structs.autobots.autobotsPOA;
 import corba.structs.autobots.boxAndGoalConfig;
 
 public class autobotsImpl extends autobotsPOA {  
 
-	/*
-	public boolean getBoxPosition(String caminho, short botPosX, short botPosY,
-			ShortHolder boxPosX, ShortHolder boxPosY) {
-		
-		String map[] = caminho.split("\n");
-		
-		int randomX,randomY,randomPos;
-		String mapLine;
-		boolean validpos = false;
-		
-		while(!validpos){
-			
-			randomX = (int)(Math.random() * map.length);
-			mapLine = map[randomX].replaceAll("\\s", "");
-			randomY = (int)(Math.random() * mapLine.length());
-			
-			randomPos = Integer.parseInt(Character.toString(mapLine.charAt(randomY)));
-			
-			if(randomPos == TipoTerreno.GRASS.getType()){
-				
-				boxPosX.value = new Integer(randomX).shortValue();
-				boxPosY.value = new Integer(randomY).shortValue();
-				return true;
-			}
-		}
-		return false;
-	}
-	*/
-
+	private String serverhost;
+	private int botPosX, botPosY,posX,posY;
+	
 	public boxAndGoalConfig getBoxPosition(String caminho, short botPosX,
 			short botPosY) {
 	
@@ -97,4 +77,48 @@ public class autobotsImpl extends autobotsPOA {
 		return xy;
 	}
 
+	public void getPathToBox(String serverhost, short botPosX,short botPosY, short boxPosX, short boxPosY, org.omg.CORBA.StringHolder ret) {
+		
+		this.serverhost = serverhost;
+		this.botPosX = botPosX;
+		this.botPosY = botPosY;
+		this.posX = boxPosX;
+		this.posY = boxPosY;
+		
+		ret.value =  getStepsString();
+		
+	}
+
+	public void getPathToTarget(String serverhost, short botPosX,short botPosY, short targetPosX, short targetPosY,org.omg.CORBA.StringHolder ret) {
+		
+		this.serverhost = serverhost;
+		this.botPosX = botPosX;
+		this.botPosY = botPosY;
+		this.posX = targetPosX;
+		this.posY = targetPosY;		
+		
+		ret.value =  getStepsString();
+	}
+	
+	private String getStepsString(){
+		
+		Caminho c = getPath();
+		String steps = "";
+		
+		for (Passo p : c.getSteps()) {
+			steps += p.getX() + "," + p.getY() + ";";
+		}
+		
+		return steps;
+	}
+	
+	private Caminho getPath(){
+		
+		GameMap map = new GameMap(this.serverhost);
+		
+		RastreadorCaminho finder = new RastreadorCaminho(map, 500, true);
+		return finder.findPath( new UnitMover(TipoTerreno.ROBOT.getType()), this.botPosX, this.botPosY, this.posX, this.posY);		
+		
+	}
+	
 }

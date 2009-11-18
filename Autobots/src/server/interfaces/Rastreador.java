@@ -1,7 +1,8 @@
 package server.interfaces;
 
+import com.structs.Caminho;
+
 import rmi.interfaces.Mover;
-import rmi.structs.Caminho;
 
 public interface Rastreador {
 

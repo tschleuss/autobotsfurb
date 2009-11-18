@@ -3,10 +3,11 @@ package server.heuristica;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.structs.Caminho;
+
 
 import rmi.interfaces.Mover;
 import rmi.interfaces.Map;
-import rmi.structs.Caminho;
 import server.interfaces.HeuristicaRastreio;
 import server.interfaces.Rastreador;
 
@@ -76,11 +77,11 @@ public class RastreadorCaminho implements Rastreador {
 						continue;
 					}
 					
-					//if (!allowDiagMovement) {
+					if (!allowDiagMovement) {
 						if ((x != 0) && (y != 0)) {
 							continue;
 						}
-					//}
+					}
 
 					int xp = x + current.x;
 					int yp = y + current.y;

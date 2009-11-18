@@ -7,7 +7,8 @@ public enum TipoTerreno {
 	TREES (2), 
 	ROBOT (3),
 	BOX   (4),	
-	GOAL  (5);
+	GOAL  (5),
+	ROBOT_BOX(6);
 	
 	private int type;
 	

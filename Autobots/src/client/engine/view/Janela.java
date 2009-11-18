@@ -14,14 +14,14 @@ import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
 
 import com.enumeration.TipoTerreno;
+import com.structs.Caminho;
+import com.structs.Passo;
 
 import corba.structs.autobots.boxAndGoalConfig;
 
 import client.CliAutobotsCorba;
 
 import netbula.ORPC.rpc_err;
-import rmi.structs.Caminho;
-import rmi.structs.Passo;
 import rpc.structs.mapLayoutPercent;
 
 public class Janela extends JFrame {
@@ -30,11 +30,15 @@ public class Janela extends JFrame {
 	public static final int SCREEN_HEIGHT = 569;
 	
 	private GameView gameView = null;
-	private JButton botaoCaixa = null;
+	private JButton botaoCaminhoBox = null;	
+	private JButton botaoBoxTarget = null;
 	private JButton botaoAgua = null;
 	private JButton botaoArvore = null;
 	private JButton botaoCaminhos = null;
 	private JButton botaoMapPercent = null;
+	
+	CliAutobotsCorba autobotsCORBA_cln = null;
+	private boxAndGoalConfig bAg = null;
 	
 	
 	public Janela() 
@@ -54,13 +58,17 @@ public class Janela extends JFrame {
 	private void initComponents() 
 	{
 		gameView	= new GameView();	//JPanel onde é desenhado o mapa
-		botaoCaixa	= new JButton();
+		this.autobotsCORBA_cln	= this.gameView.getClienteCorba();		
+		
+		botaoBoxTarget	= new JButton();
+		botaoCaminhoBox = new JButton();
         botaoAgua	= new JButton();	//Botoes da tela
         botaoArvore = new JButton();	//Botoes da tela
         botaoCaminhos	= new JButton();	//Botoes da tela
         botaoMapPercent	= new JButton();	//Botoes da tela        
 
-        botaoCaixa.setText("Criar caixa");
+        botaoBoxTarget.setText("Criar caixa");
+        botaoCaminhoBox.setText("Caminho até a caixa");
         botaoAgua.setText("Buscar Água");
         botaoArvore.setText("Buscar Árvore");
         botaoCaminhos.setText("Casas visitadas");
@@ -90,7 +98,9 @@ public class Janela extends JFrame {
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(botaoAgua))
                     .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(botaoCaixa))                        
+                        .addComponent(botaoBoxTarget)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botaoCaminhoBox))                      
                 	)                    
                 .addContainerGap())
         );
@@ -107,7 +117,8 @@ public class Janela extends JFrame {
                     .addComponent(botaoCaminhos)
                     .addComponent(botaoMapPercent))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                	.addComponent(botaoCaixa))          
+                	.addComponent(botaoBoxTarget)
+                	.addComponent(botaoCaminhoBox))          
                 .addContainerGap())
         );
 
@@ -121,11 +132,17 @@ public class Janela extends JFrame {
 	 */
 	private void bindingListeners() {
 		
-		botaoCaixa.addActionListener(new ActionListener() {
+		botaoBoxTarget.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-            	botaoCaixaHandler(evt);
+            	botaoBoxTargetHandler(evt);
             }
         });		
+
+		botaoCaminhoBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+            	botaoCaminhoBoxHandler(evt);
+            }
+        });			
 		
 		botaoAgua.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
@@ -151,7 +168,7 @@ public class Janela extends JFrame {
             }
         });		
 	}
-	
+
 	/**
 	 * Handler para tratar os cliques
 	 * efetuados no botão "botaoAgua"
@@ -179,17 +196,25 @@ public class Janela extends JFrame {
 	}
 	
 	
-	private void botaoCaixaHandler(ActionEvent evt)
+	private void botaoBoxTargetHandler(ActionEvent evt)
 	{ 
-		CliAutobotsCorba cliente	= this.gameView.getClienteCorba();
-		String mapString			= this.gameView.getMap().getClienteRPC().getMapString();
+		String mapString		= this.gameView.getMap().getClienteRPC().getMapString();
 		
-		boxAndGoalConfig bAg = cliente.getBoxPosition(mapString, String.valueOf(this.gameView.getX()), String.valueOf(this.gameView.getY()));
+		this.bAg = autobotsCORBA_cln.getBoxPosition(mapString, String.valueOf(this.gameView.getX()), String.valueOf(this.gameView.getY()));
 		
 		this.gameView.setBox(bAg.boxPosX, bAg.boxPosY);
 		this.gameView.setGoal(bAg.goalPosX, bAg.goalPosY);
 		this.gameView.repaint(0);
 	}
+	
+	
+	private void botaoCaminhoBoxHandler(ActionEvent evt) {
+		if(this.bAg != null){
+			Caminho c = autobotsCORBA_cln.getPathToBox(String.valueOf(this.gameView.getX()), String.valueOf(this.gameView.getY()), String.valueOf(this.bAg.boxPosX), String.valueOf(this.bAg.boxPosY));
+		}else{
+			JOptionPane.showMessageDialog(this, "Crie a caixa e o alvo antes de traçar a rota.");			
+		}
+	}	
 	
 	private void getFasterWay(TipoTerreno type){
 		

@@ -1,4 +1,4 @@
-package client.engine;
+package com.structs;
 
 import java.io.Serializable;
 

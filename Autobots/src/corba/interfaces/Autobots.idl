@@ -9,8 +9,11 @@ module autobots {
 	
   interface autobots {
 
-	  boxAndGoalConfig getBoxPosition(in string caminho, in short botPosX, in short botPosY);
-
+		boxAndGoalConfig getBoxPosition(in string map, in short botPosX, in short botPosY);
+		
+		void getPathToBox(in string serverhost, in short botPosX, in short botPosY, in short boxPosX, in short boxPosY, out string ret);
+		
+		void getPathToTarget(in string serverhost, in short botPosX, in short botPosY, in short targetPosX, in short targetPosY, out string ret);
   };
 
 };

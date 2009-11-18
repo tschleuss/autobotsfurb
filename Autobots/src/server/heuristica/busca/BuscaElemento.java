@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 import com.enumeration.TipoTerreno;
+import com.structs.Passo;
 
 import rmi.interfaces.Map;
-import rmi.structs.Passo;
 
 public class BuscaElemento {
 

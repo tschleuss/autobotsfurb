@@ -4,13 +4,13 @@ import java.rmi.Naming;
 import java.util.List;
 
 import com.enumeration.TipoTerreno;
+import com.structs.Caminho;
+import com.structs.GameMap;
+import com.structs.Passo;
 
 import rmi.interfaces.Autobots;
 import rmi.interfaces.Map;
-import rmi.structs.Caminho;
-import rmi.structs.Passo;
 import server.heuristica.UnitMover;
-import client.engine.GameMap;
 
 public class CliAutobotsRMI {
 	

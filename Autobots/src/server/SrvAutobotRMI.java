@@ -7,12 +7,12 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 import com.enumeration.TipoTerreno;
+import com.structs.Caminho;
+import com.structs.Passo;
 
 import rmi.interfaces.Autobots;
 import rmi.interfaces.Map;
 import rmi.interfaces.Mover;
-import rmi.structs.Caminho;
-import rmi.structs.Passo;
 import server.heuristica.RastreadorCaminho;
 import server.heuristica.UnitMover;
 import server.heuristica.busca.BuscaElemento;

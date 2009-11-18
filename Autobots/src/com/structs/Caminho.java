@@ -1,14 +1,12 @@
-package rmi.structs;
+package com.structs;
 import java.io.Serializable;
 import java.util.ArrayList;
-
 
 public class Caminho implements Serializable{
 
 	private ArrayList steps = new ArrayList();
 	private ArrayList<Passo> stepsOld = new ArrayList<Passo>();
 	
-
 	public Caminho() {
 		
 	}

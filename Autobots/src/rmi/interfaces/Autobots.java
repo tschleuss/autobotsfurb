@@ -5,10 +5,10 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 import com.enumeration.TipoTerreno;
+import com.structs.Caminho;
+import com.structs.GameMap;
+import com.structs.Passo;
 
-import rmi.structs.Caminho;
-import rmi.structs.Passo;
-import client.engine.GameMap;
 
 public interface Autobots extends Remote {
 	
