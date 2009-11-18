@@ -176,8 +176,6 @@ public class Janela extends JFrame {
 	 */
 	private void botaoAguaHandler(ActionEvent evt) 
 	{
-		//TODO
-		//CHAMA AS FUNCOES DO BOTAO AGUA
 		JOptionPane.showMessageDialog(this, "Procurando agua !");
 		getFasterWay(TipoTerreno.WATER);
 	}
@@ -189,8 +187,6 @@ public class Janela extends JFrame {
 	 */
 	private void botaoArvoreHandler(ActionEvent evt) 
 	{
-		//TODO
-		//CHAMA AS FUNCOES DO BOTAO ARVORE
 		JOptionPane.showMessageDialog(this, "Procurando arvore !");
 		getFasterWay(TipoTerreno.TREES);
 	}
@@ -198,10 +194,10 @@ public class Janela extends JFrame {
 	
 	private void botaoBoxTargetHandler(ActionEvent evt)
 	{ 
-		String mapString		= this.gameView.getMap().getClienteRPC().getMapString();
+		String mapString = this.gameView.getMap().getClienteRPC().getMapString();
 		
-		this.bAg = autobotsCORBA_cln.getBoxPosition(mapString, String.valueOf(this.gameView.getX()), String.valueOf(this.gameView.getY()));
-		
+		this.bAg = autobotsCORBA_cln.getBoxPosition(mapString, String.valueOf(this.gameView.currentX()), String.valueOf(this.gameView.currentY()));
+
 		this.gameView.setBox(bAg.boxPosX, bAg.boxPosY);
 		this.gameView.setGoal(bAg.goalPosX, bAg.goalPosY);
 		this.gameView.repaint(0);
@@ -210,7 +206,8 @@ public class Janela extends JFrame {
 	
 	private void botaoCaminhoBoxHandler(ActionEvent evt) {
 		if(this.bAg != null){
-			Caminho c = autobotsCORBA_cln.getPathToBox(String.valueOf(this.gameView.getX()), String.valueOf(this.gameView.getY()), String.valueOf(this.bAg.boxPosX), String.valueOf(this.bAg.boxPosY));
+			Caminho c = autobotsCORBA_cln.getPathToBox(String.valueOf(this.gameView.currentX()), String.valueOf(this.gameView.currentY()), String.valueOf(this.bAg.boxPosX), String.valueOf(this.bAg.boxPosY));
+			this.gameView.moveToPath(c,this.bAg.boxPosY,this.bAg.boxPosX);
 		}else{
 			JOptionPane.showMessageDialog(this, "Crie a caixa e o alvo antes de traçar a rota.");			
 		}

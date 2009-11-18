@@ -185,6 +185,8 @@ public class GameView extends JPanel {
 		y -= 0;
 		x /= ICON_WIDTH;
 		y /= ICON_WIDTH;
+
+		System.out.println("CLICK: " + x + "x" + y );
 		
 		repaint(0);
 		
@@ -214,6 +216,27 @@ public class GameView extends JPanel {
 				}
 			}
 		}
+		
+		repaint(0);
+	}
+	
+	public void moveToPath( Caminho path , int x , int y ) {
+		
+		x -= 0;
+		y -= 0;
+		x /= ICON_WIDTH;
+		y /= ICON_WIDTH;
+		
+		repaint(0);
+		map.clearVisited();
+		
+		this.path = path;
+		mov = new Movimento(map, path, this, selectedx, selectedy);
+		mov.start();
+		
+		selectedx = x;
+		selectedy = y;
+		lastFindX = -1;
 		
 		repaint(0);
 	}
@@ -265,8 +288,24 @@ public class GameView extends JPanel {
 			g.fillRect((caminhoTerrenoSelected.getX(caminhoMax)*ICON_WIDTH)+4, (caminhoTerrenoSelected.getY(caminhoMax)*ICON_WIDTH)+4,7,7);			
 		}
 		
-		if(box != null){
-			g.drawImage(tiles[TipoTerreno.BOX.getType()],box.getX()*ICON_WIDTH,box.getY()*ICON_WIDTH,null);
+		if( box != null && !isHoldingBox ) {
+			
+			if ( map.getUnit( box.getX() , box.getY() ) != 0 || isHoldingBox ) {
+				
+				Image tmpRobot = tiles[TipoTerreno.ROBOT.getType()];
+				Image tmpRBox  = tiles[TipoTerreno.ROBOT_BOX.getType()];
+				
+				tiles[TipoTerreno.ROBOT.getType()] = tmpRBox;
+				tiles[TipoTerreno.ROBOT_BOX.getType()] = tmpRobot;
+				
+				isHoldingBox = true;
+				
+				g.drawImage( tiles[TipoTerreno.ROBOT.getType()] , box.getX() * ICON_WIDTH , box.getY() * ICON_WIDTH , null );
+				
+			} else {
+				
+				g.drawImage(tiles[TipoTerreno.BOX.getType()],box.getX()*ICON_WIDTH,box.getY()*ICON_WIDTH,null);
+			}
 		}
 		
 		if(goal != null){

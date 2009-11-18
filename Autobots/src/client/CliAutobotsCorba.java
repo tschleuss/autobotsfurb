@@ -51,6 +51,8 @@ public class CliAutobotsCorba {
 	
 	public Caminho getPathToBox(String x, String y, String boxX, String boxY){
 		
+		System.out.println("ROBOT: " + x + "x" + y);
+		
 		short botPosX = new Short(x).shortValue();
 		short botPosY = new Short(y).shortValue();
 		short boxPosX = new Short(boxX).shortValue();

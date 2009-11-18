@@ -27,7 +27,8 @@ public class Movimento extends Thread {
 		
 		this.gameView.repaint(0);
 
-		for(Passo step : path.getSteps()){
+		for(Passo step : path.getSteps())
+		{
 			path.appenStepOld(X, Y);
 			int unit = map.getUnit(X, Y);
 			map.setUnit(X, Y, 0);
@@ -37,7 +38,7 @@ public class Movimento extends Thread {
 			Y = step.getY();
 
 			try{
-			Thread.sleep(250);
+				Thread.sleep(250);
 			}
 			catch (Exception err) {}
 

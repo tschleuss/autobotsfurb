@@ -17,8 +17,7 @@ public class autobotsImpl extends autobotsPOA {
 	private String serverhost;
 	private int botPosX, botPosY,posX,posY;
 	
-	public boxAndGoalConfig getBoxPosition(String caminho, short botPosX,
-			short botPosY) {
+	public boxAndGoalConfig getBoxPosition( String caminho, short botPosX , short botPosY) {
 	
 		int boxPosX, boxPosY;
 		int[] xy = new int[2];
@@ -79,10 +78,10 @@ public class autobotsImpl extends autobotsPOA {
 	public void getPathToBox(String serverhost, short botPosX,short botPosY, short boxPosX, short boxPosY, org.omg.CORBA.StringHolder ret) {
 		
 		this.serverhost = serverhost;
-		this.botPosX = botPosX;
-		this.botPosY = botPosY;
-		this.posX = boxPosX;
-		this.posY = boxPosY;
+		this.botPosX = botPosY;
+		this.botPosY = botPosX;
+		this.posX = boxPosY;
+		this.posY = boxPosX;
 		
 		ret.value =  getStepsString();
 		
