@@ -1,1 +1,0 @@
-orbd -ORBInitialPort 2000
