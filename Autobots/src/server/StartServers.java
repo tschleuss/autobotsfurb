@@ -1,4 +1,7 @@
 package server;
+import java.util.ArrayList;
+import java.util.List;
+
 import rpc.portMapper.pmapsvc;
 
 
@@ -16,12 +19,16 @@ public class StartServers {
 	//  EXECUTAR CORBA
 	//  5 - src/corba/cmd/orb.bat
 	//  6 - src/server/SrvAutobotCorba.java
+	
+	
 
 	public static void main(String[] args) {
 		
+		List<Thread> list = new ArrayList<Thread>();
+		
 		try {
 			
-			new Thread() {
+			Thread t1 = new Thread() {
 				@Override
 				public void run() {
 					try {
@@ -30,9 +37,9 @@ public class StartServers {
 						e.printStackTrace();
 					}
 				}
-			}.start();
+			};
 			
-			new Thread(){
+			Thread t2 = new Thread(){
 				@Override
 				public void run() {
 					try {
@@ -41,9 +48,9 @@ public class StartServers {
 						e.printStackTrace();
 					}
 				}
-			}.start();
+			};
 			
-			new Thread(){
+			Thread t3 = new Thread(){
 				@Override
 				public void run() {
 					try {
@@ -52,9 +59,9 @@ public class StartServers {
 						e.printStackTrace();
 					}
 				}
-			}.start();
+			};
 			
-			new Thread(){
+			Thread t4 = new Thread(){
 				@Override
 				public void run() {
 					try {
@@ -63,9 +70,9 @@ public class StartServers {
 						e.printStackTrace();
 					}
 				}
-			}.start();
+			};
 			
-			new Thread(){
+			Thread t5 = new Thread(){
 				@Override
 				public void run() {
 					try {
@@ -74,9 +81,9 @@ public class StartServers {
 						e.printStackTrace();
 					}
 				}
-			}.start();
+			};
 			
-			new Thread(){
+			Thread t6 = new Thread(){
 				@Override
 				public void run() {
 					try {
@@ -85,7 +92,23 @@ public class StartServers {
 						e.printStackTrace();
 					}
 				}
-			}.start();
+			};
+
+			list.add(t1);
+			list.add(t2);
+			list.add(t3);
+			list.add(t4);
+			list.add(t5);
+			list.add(t6);
+			
+			synchronized (list) {
+				for( Thread t : list ) {
+					t.start();
+					Thread.sleep(100);
+				}
+			}
+
+			System.err.println("[SERVIDORES INICIADOS COM SUCESSO !]");
 			
 		} catch ( Exception e ) {
 			e.printStackTrace();

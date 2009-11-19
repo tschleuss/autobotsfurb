@@ -39,8 +39,6 @@ public class Janela extends JFrame {
 	private JButton botaoMapPercent = null;
 	
 	CliAutobotsCorba autobotsCORBA_cln = null;
-	private boxAndGoalConfig bAg = null;
-	
 	
 	public Janela() 
 	{
@@ -209,28 +207,31 @@ public class Janela extends JFrame {
 	private void botaoBoxTargetHandler(ActionEvent evt)
 	{ 
 		String mapString = this.gameView.getMap().getClienteRPC().getMapString();
-		
-		this.bAg = autobotsCORBA_cln.getBoxPosition(mapString, String.valueOf(this.gameView.currentX()), String.valueOf(this.gameView.currentY()));
-		
-		this.gameView.setBox(bAg.boxPosX, bAg.boxPosY);
-		this.gameView.setGoal(bAg.goalPosX, bAg.goalPosY);
+		this.gameView.resetBoxAndGoal();
+		this.gameView.setbAg( autobotsCORBA_cln.getBoxPosition(mapString, String.valueOf(this.gameView.currentX()), String.valueOf(this.gameView.currentY())) );
+		this.gameView.setBox(this.gameView.getbAg().boxPosX, this.gameView.getbAg().boxPosY);
+		this.gameView.setGoal(this.gameView.getbAg().goalPosX, this.gameView.getbAg().goalPosY);
 		this.gameView.repaint(0);
 	}
 	
 	
 	private void botaoCaminhoBoxHandler(ActionEvent evt) {
-		if(this.bAg != null){
-			Caminho c = autobotsCORBA_cln.getPathToBox(String.valueOf(this.gameView.currentX()), String.valueOf(this.gameView.currentY()), String.valueOf(this.bAg.boxPosX), String.valueOf(this.bAg.boxPosY));
-			this.gameView.moveToPath(c,this.bAg.boxPosX, this.bAg.boxPosY);
-		}else{
+		if(this.gameView.getbAg() != null){
+			Caminho c = autobotsCORBA_cln.getPathToBox(String.valueOf(this.gameView.currentX()), String.valueOf(this.gameView.currentY()), String.valueOf(this.gameView.getbAg().boxPosX), String.valueOf(this.gameView.getbAg().boxPosY));
+			this.gameView.moveToPath(c,this.gameView.getbAg().boxPosX, this.gameView.getbAg().boxPosY);
+		} else {
 			JOptionPane.showMessageDialog(this, "Crie a caixa e o alvo antes de traçar a rota.");			
 		}
 	}
 
 	private void botaoCaminhoTargetHandler(ActionEvent evt) {
-		if(this.bAg != null){
-			Caminho c = autobotsCORBA_cln.getPathToTarget(String.valueOf(this.gameView.currentX()), String.valueOf(this.gameView.currentY()), String.valueOf(this.bAg.goalPosX), String.valueOf(this.bAg.goalPosY));
-			this.gameView.moveToPath(c,this.bAg.goalPosX,this.bAg.goalPosY);
+		if( this.gameView.getbAg() != null ) {
+			if( this.gameView.isHoldingBox() ) {
+				Caminho c = autobotsCORBA_cln.getPathToTarget(String.valueOf(this.gameView.currentX()), String.valueOf(this.gameView.currentY()), String.valueOf(this.gameView.getbAg().goalPosX), String.valueOf(this.gameView.getbAg().goalPosY));
+				this.gameView.moveToPath(c,this.gameView.getbAg().goalPosX,this.gameView.getbAg().goalPosY);
+			} else {
+				JOptionPane.showMessageDialog(this, "Você não possui a caixa ainda !");
+			}
 		}else{
 			JOptionPane.showMessageDialog(this, "Crie a caixa e o alvo antes de guardar a caixa.");			
 		}

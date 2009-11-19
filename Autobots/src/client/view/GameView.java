@@ -15,18 +15,22 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import rmi.interfaces.Map;
+import rpc.structs.botPosition;
+import client.CliAutobotsCorba;
+import client.CliAutobotsRMI;
+
 import com.enumeration.TipoTerreno;
 import com.structs.Caminho;
 import com.structs.GameMap;
 import com.structs.Movimento;
 import com.structs.Passo;
 
-import rmi.interfaces.Map;
-import rpc.structs.botPosition;
-import client.CliAutobotsCorba;
-import client.CliAutobotsRMI;
+import corba.structs.autobots.boxAndGoalConfig;
 
 public class GameView extends JPanel {
+
+	private static final long serialVersionUID = 2890569888473739137L;
 	
 	public static final int START_X = 0;
 	public static final int START_Y = 0;
@@ -40,13 +44,12 @@ public class GameView extends JPanel {
 	private Image buffer;					// Buffer para renderização
 	private int selectedx = -1;				// Coordenadas X do robo selecionado ou -1 para nada selecionado
 	private int selectedy = -1;				// Coordenadas Y do robo selecionado ou -1 para nada selecionado
-	private int lastFindX = -1;				// Coordenada X do alvo do ultimo caminho - usado para evitar novas buscas (cache)
-	private int lastFindY = -1;				// Coordenada Y do alvo do ultimo caminho - usado para evitar novas buscas (cache)
 	private CliAutobotsRMI autobotsRMI_cln;
 	private CliAutobotsCorba autobotsCORBA_cln;
 	private Movimento mov;
 	
 	private Caminho caminhoTerrenoSelected;
+	private boxAndGoalConfig bAg = null;
 	private Passo box;
 	private Passo goal;
 	
@@ -201,7 +204,6 @@ public class GameView extends JPanel {
 		if (map.getUnit(x, y) != 0) {
 			selectedx = x;
 			selectedy = y;
-			lastFindX = - 1;
 		} else {
 			if (selectedx != -1) {
 				map.clearVisited();
@@ -215,8 +217,6 @@ public class GameView extends JPanel {
 
 					selectedx = x;
 					selectedy = y;
-
-					lastFindX = - 1;
 				}
 			}
 		}
@@ -240,7 +240,6 @@ public class GameView extends JPanel {
 		
 		selectedx = path.getLastStep().getX();
 		selectedy = path.getLastStep().getY();
-		lastFindX = -1;
 		
 		repaint(0);
 	}
@@ -259,15 +258,24 @@ public class GameView extends JPanel {
 		g.clearRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
 		g.translate(0,0);
 
-		for (int x=0;x<map.getWidthInTiles();x++) {
-			for (int y=0;y<map.getHeightInTiles();y++) {
-				g.drawImage(tiles[map.getTerrain(x, y)],x*ICON_WIDTH,y*ICON_WIDTH,null);
-				if (map.getUnit(x, y) != 0) {
-					g.drawImage(tiles[map.getUnit(x, y)],x*ICON_WIDTH,y*ICON_WIDTH,null);
-				} else {
-					if (path != null) {
-						if (path.contains(x, y) && !path.containsOld(x, y)) {
-							if (mov != null){
+		for ( int x = 0; x < map.getWidthInTiles(); x++ ) 
+		{
+			for ( int y = 0; y < map.getHeightInTiles(); y++ ) 
+			{
+				g.drawImage( tiles[map.getTerrain(x, y)] , x * ICON_WIDTH , y * ICON_WIDTH , null );
+				
+				if ( map.getUnit(x, y) != 0 ) {
+					
+					g.drawImage( tiles[map.getUnit(x, y)] , x * ICON_WIDTH , y * ICON_WIDTH , null );
+				} 
+				else {
+					
+					if ( path != null ) {
+						
+						if ( path.contains(x, y) && !path.containsOld(x, y) ) {
+							
+							if ( mov != null ){
+								
 								g.setColor(Color.blue);
 								g.fillRect((x*ICON_WIDTH)+4, (y*ICON_WIDTH)+4,7,7);
 							}
@@ -312,20 +320,64 @@ public class GameView extends JPanel {
 			}
 		}
 		
-		if(goal != null){
-			g.drawImage(tiles[TipoTerreno.GOAL.getType()],goal.getX()*ICON_WIDTH,goal.getY()*ICON_WIDTH,null);
+		if( goal != null ) {
+			
+			if ( map.getUnit( goal.getX() , goal.getY() ) != 0 && isHoldingBox ) {
+				
+				Image tmpRobot = tiles[TipoTerreno.ROBOT.getType()];
+				Image tmpRBox  = tiles[TipoTerreno.ROBOT_BOX.getType()];
+				
+				tiles[TipoTerreno.ROBOT.getType()] = tmpRBox;
+				tiles[TipoTerreno.ROBOT_BOX.getType()] = tmpRobot;
+				
+				isHoldingBox = false;
+				
+				g.drawImage( tiles[TipoTerreno.ROBOT.getType()] , box.getX() * ICON_WIDTH , box.getY() * ICON_WIDTH , null );
+				repaint(0);
+				
+				//Reseta tudo ao acabar
+				goal = null;
+				box = null;
+				bAg = null;
+				
+			} else {
+				
+				g.drawImage(tiles[TipoTerreno.GOAL.getType()],goal.getX()*ICON_WIDTH,goal.getY()*ICON_WIDTH,null);
+			}
 		}		
 		
 		//Desenha, se necessario, os caminhos acessados
-		if(pathsTraveled != null) {
-			for( Passo s : pathsTraveled ) {
+		if( pathsTraveled != null ) {
+			
+			for( Passo s : pathsTraveled ) 
+			{
 				g.setColor(Color.BLACK);
 				g.fillRect((s.getX()*ICON_WIDTH)+4, (s.getY()*ICON_WIDTH)+4,7,7);	
 			}
+			
 			pathsTraveled.clear();
 		}
 
 		graphics.drawImage(buffer, 0, 0, null);
+	}
+	
+	public void resetBoxAndGoal() {
+		
+		if( isHoldingBox ) {
+			
+			Image tmpRobot = tiles[TipoTerreno.ROBOT.getType()];
+			Image tmpRBox  = tiles[TipoTerreno.ROBOT_BOX.getType()];
+			
+			tiles[TipoTerreno.ROBOT.getType()] = tmpRBox;
+			tiles[TipoTerreno.ROBOT_BOX.getType()] = tmpRobot;
+			
+			box = null;
+			goal = null;
+			isHoldingBox = false;
+			
+			repaint(0);
+		}
+		
 	}
 	
 	public CliAutobotsRMI getClienteRMI(){
@@ -366,5 +418,21 @@ public class GameView extends JPanel {
 
 	public void setPathsTraveled(List<Passo> pathsTraveled) {
 		this.pathsTraveled = pathsTraveled;
+	}
+
+	public final boolean isHoldingBox() {
+		return isHoldingBox;
+	}
+
+	public final void setHoldingBox(boolean isHoldingBox) {
+		this.isHoldingBox = isHoldingBox;
+	}
+
+	public final boxAndGoalConfig getbAg() {
+		return bAg;
+	}
+
+	public final void setbAg(boxAndGoalConfig bAg) {
+		this.bAg = bAg;
 	}
 }
