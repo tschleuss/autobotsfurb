@@ -234,8 +234,8 @@ public class GameView extends JPanel {
 		mov = new Movimento(map, path, this, selectedx, selectedy);
 		mov.start();
 		
-		selectedx = x;
-		selectedy = y;
+		selectedx = path.getLastStep().getX();
+		selectedy = path.getLastStep().getY();
 		lastFindX = -1;
 		
 		repaint(0);

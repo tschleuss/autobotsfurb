@@ -29,7 +29,7 @@ public class InitAll {
 				@Override
 				public void run() {
 					try {
-						new pmapsvc().main( new String[]{} );
+						new pmapsvc().main(new String[] {});
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

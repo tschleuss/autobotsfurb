@@ -73,6 +73,32 @@ public class CliAutobotsCorba {
 		}
 		
 		return c;
-	}	
+	}
+	
+	public Caminho getPathToDestiny(String x, String y, String destinyX, String destinyY){
+		
+		System.out.println("ROBOT: " + x + "x" + y);
+		
+		short botPosX = new Short(x).shortValue();
+		short botPosY = new Short(y).shortValue();
+		short destinyPosX = new Short(destinyX).shortValue();
+		short destinyPosY = new Short(destinyY).shortValue();		
+
+		StringHolder ret = new StringHolder();
+
+		autobot.getPathToDestiny(serverhost, botPosX, botPosY, destinyPosX, destinyPosY, ret);
+
+		String steps[] = ret.value.split(";");
+		String step[];
+
+		Caminho c = new Caminho();
+		
+		for (String XY : steps) {
+			step = XY.split(",");
+			c.appendStep(Integer.parseInt(step[0]), Integer.parseInt(step[1]));
+		}
+		
+		return c;
+	}
 	
 }

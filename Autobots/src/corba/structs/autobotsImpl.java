@@ -86,6 +86,18 @@ public class autobotsImpl extends autobotsPOA {
 		ret.value =  getStepsString();
 		
 	}
+	
+	public void getPathToDestiny(String serverhost, short botPosX,short botPosY, short destinyPosX, short destinyPosY, org.omg.CORBA.StringHolder ret) {
+		
+		this.serverhost = serverhost;
+		this.botPosX = botPosY;
+		this.botPosY = botPosX;
+		this.posX = destinyPosY;
+		this.posY = destinyPosX;
+		
+		ret.value =  getStepsString();
+		
+	}
 
 	public void getPathToTarget(String serverhost, short botPosX,short botPosY, short targetPosX, short targetPosY,org.omg.CORBA.StringHolder ret) {
 		
