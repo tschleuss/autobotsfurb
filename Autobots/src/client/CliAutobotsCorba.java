@@ -51,8 +51,6 @@ public class CliAutobotsCorba {
 	
 	public Caminho getPathToBox(String x, String y, String boxX, String boxY){
 		
-		System.out.println("ROBOT: " + x + "x" + y);
-		
 		short botPosX = new Short(x).shortValue();
 		short botPosY = new Short(y).shortValue();
 		short boxPosX = new Short(boxX).shortValue();
@@ -61,32 +59,23 @@ public class CliAutobotsCorba {
 		StringHolder ret = new StringHolder();
 		
 		autobot.getPathToBox(serverhost, botPosX, botPosY, boxPosX, boxPosY, ret);
-
-		String steps[] = ret.value.split(";");
-		String step[];
-		
-		Caminho c = new Caminho();
-		
-		for (String XY : steps) {
-			step = XY.split(",");
-			c.appendStep(Integer.parseInt(step[0]), Integer.parseInt(step[1]));
-		}
-		
-		return c;
+		return stringToPath(ret);
 	}
 	
-	public Caminho getPathToDestiny(String x, String y, String destinyX, String destinyY){
-		
-		System.out.println("ROBOT: " + x + "x" + y);
+	public Caminho getPathToTarget(String x, String y, String targetX, String targetY){
 		
 		short botPosX = new Short(x).shortValue();
 		short botPosY = new Short(y).shortValue();
-		short destinyPosX = new Short(destinyX).shortValue();
-		short destinyPosY = new Short(destinyY).shortValue();		
+		short destinyPosX = new Short(targetX).shortValue();
+		short destinyPosY = new Short(targetY).shortValue();		
 
 		StringHolder ret = new StringHolder();
 
-		autobot.getPathToDestiny(serverhost, botPosX, botPosY, destinyPosX, destinyPosY, ret);
+		autobot.getPathToTarget(serverhost, botPosX, botPosY, destinyPosX, destinyPosY, ret);
+		return stringToPath(ret);
+	}
+	
+	private Caminho stringToPath(StringHolder ret){
 
 		String steps[] = ret.value.split(";");
 		String step[];

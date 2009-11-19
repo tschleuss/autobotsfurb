@@ -78,22 +78,10 @@ public class autobotsImpl extends autobotsPOA {
 	public void getPathToBox(String serverhost, short botPosX,short botPosY, short boxPosX, short boxPosY, org.omg.CORBA.StringHolder ret) {
 		
 		this.serverhost = serverhost;
-		this.botPosX = botPosY;
-		this.botPosY = botPosX;
-		this.posX = boxPosY;
-		this.posY = boxPosX;
-		
-		ret.value =  getStepsString();
-		
-	}
-	
-	public void getPathToDestiny(String serverhost, short botPosX,short botPosY, short destinyPosX, short destinyPosY, org.omg.CORBA.StringHolder ret) {
-		
-		this.serverhost = serverhost;
-		this.botPosX = botPosY;
-		this.botPosY = botPosX;
-		this.posX = destinyPosY;
-		this.posY = destinyPosX;
+		this.botPosX = botPosX;
+		this.botPosY = botPosY;
+		this.posX = boxPosX;
+		this.posY = boxPosY;
 		
 		ret.value =  getStepsString();
 		
@@ -127,7 +115,9 @@ public class autobotsImpl extends autobotsPOA {
 		GameMap map = new GameMap(this.serverhost);
 		
 		RastreadorCaminho finder = new RastreadorCaminho(map, 500, true);
-		return finder.findPath( new UnitMover(TipoTerreno.ROBOT.getType()), this.botPosX, this.botPosY, this.posX, this.posY);		
+		
+		//inverte X e Y do destino
+		return finder.findPath( new UnitMover(TipoTerreno.ROBOT.getType()), this.botPosX, this.botPosY, this.posY, this.posX);		
 		
 	}
 	

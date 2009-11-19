@@ -1,4 +1,4 @@
-package client.engine.view;
+package client.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -31,7 +31,7 @@ public class Janela extends JFrame {
 	
 	private GameView gameView = null;
 	private JButton botaoCaminhoBox = null;
-	private JButton botaoPutBox = null;
+	private JButton botaoCaminhoTarget = null;
 	private JButton botaoBoxTarget = null;
 	private JButton botaoAgua = null;
 	private JButton botaoArvore = null;
@@ -63,15 +63,15 @@ public class Janela extends JFrame {
 		
 		botaoBoxTarget	= new JButton();
 		botaoCaminhoBox = new JButton();
-		botaoPutBox = new JButton();
+		botaoCaminhoTarget = new JButton();
         botaoAgua	= new JButton();	//Botoes da tela
         botaoArvore = new JButton();	//Botoes da tela
         botaoCaminhos	= new JButton();	//Botoes da tela
         botaoMapPercent	= new JButton();	//Botoes da tela        
 
-        botaoBoxTarget.setText("Criar caixa");
-        botaoCaminhoBox.setText("Caminho até a caixa");
-        botaoPutBox.setText("Guardar caixa");
+        botaoBoxTarget.setText("Criar caixa e alvo");
+        botaoCaminhoBox.setText("Caminhar até a caixa");
+        botaoCaminhoTarget.setText("Guardar a caixa");
         botaoAgua.setText("Buscar Água");
         botaoArvore.setText("Buscar Árvore");
         botaoCaminhos.setText("Casas visitadas");
@@ -105,7 +105,7 @@ public class Janela extends JFrame {
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(botaoCaminhoBox)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botaoPutBox)                        
+                        .addComponent(botaoCaminhoTarget)                        
                         )                      
                 	)                    
                 .addContainerGap())
@@ -125,7 +125,7 @@ public class Janela extends JFrame {
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 	.addComponent(botaoBoxTarget)
                 	.addComponent(botaoCaminhoBox)
-                	.addComponent(botaoPutBox)
+                	.addComponent(botaoCaminhoTarget)
                 	)          
                 .addContainerGap())
         );
@@ -152,9 +152,9 @@ public class Janela extends JFrame {
             }
         });	
 		
-		botaoPutBox.addActionListener(new ActionListener() {
+		botaoCaminhoTarget.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-            	botaoPutBoxHandler(evt);
+            	botaoCaminhoTargetHandler(evt);
             }
         });	
 		
@@ -211,7 +211,7 @@ public class Janela extends JFrame {
 		String mapString = this.gameView.getMap().getClienteRPC().getMapString();
 		
 		this.bAg = autobotsCORBA_cln.getBoxPosition(mapString, String.valueOf(this.gameView.currentX()), String.valueOf(this.gameView.currentY()));
-
+		
 		this.gameView.setBox(bAg.boxPosX, bAg.boxPosY);
 		this.gameView.setGoal(bAg.goalPosX, bAg.goalPosY);
 		this.gameView.repaint(0);
@@ -227,9 +227,9 @@ public class Janela extends JFrame {
 		}
 	}
 
-	private void botaoPutBoxHandler(ActionEvent evt) {
+	private void botaoCaminhoTargetHandler(ActionEvent evt) {
 		if(this.bAg != null){
-			Caminho c = autobotsCORBA_cln.getPathToDestiny(String.valueOf(this.gameView.currentX()), String.valueOf(this.gameView.currentY()), String.valueOf(this.bAg.goalPosX), String.valueOf(this.bAg.goalPosY));
+			Caminho c = autobotsCORBA_cln.getPathToTarget(String.valueOf(this.gameView.currentX()), String.valueOf(this.gameView.currentY()), String.valueOf(this.bAg.goalPosX), String.valueOf(this.bAg.goalPosY));
 			this.gameView.moveToPath(c,this.bAg.goalPosX,this.bAg.goalPosY);
 		}else{
 			JOptionPane.showMessageDialog(this, "Crie a caixa e o alvo antes de guardar a caixa.");			

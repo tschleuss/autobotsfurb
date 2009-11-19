@@ -1,6 +1,6 @@
-package client.engine;
+package client;
 
-import client.engine.view.Janela;
+import client.view.Janela;
 
 
 

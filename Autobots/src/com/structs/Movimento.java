@@ -1,10 +1,7 @@
-package client.engine;
+package com.structs;
 
-import com.structs.Caminho;
-import com.structs.GameMap;
-import com.structs.Passo;
 
-import client.engine.view.GameView;
+import client.view.GameView;
 
 public class Movimento extends Thread {
 	

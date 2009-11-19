@@ -1,4 +1,4 @@
-package client.engine.view;
+package client.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -18,12 +18,13 @@ import javax.swing.JPanel;
 import com.enumeration.TipoTerreno;
 import com.structs.Caminho;
 import com.structs.GameMap;
+import com.structs.Movimento;
 import com.structs.Passo;
 
 import rmi.interfaces.Map;
+import rpc.structs.botPosition;
 import client.CliAutobotsCorba;
 import client.CliAutobotsRMI;
-import client.engine.Movimento;
 
 public class GameView extends JPanel {
 	
@@ -68,13 +69,13 @@ public class GameView extends JPanel {
 	{
 		try 
 		{
-			tiles[TipoTerreno.TREES.getType()] = ImageIO.read(getResource("client/resource/trees.png"));
-			tiles[TipoTerreno.GRASS.getType()] = ImageIO.read(getResource("client/resource/grass.png"));
-			tiles[TipoTerreno.WATER.getType()] = ImageIO.read(getResource("client/resource/water.png"));
-			tiles[TipoTerreno.ROBOT.getType()] = ImageIO.read(getResource("client/resource/megaman.png"));
-			tiles[TipoTerreno.BOX.getType()] = ImageIO.read(getResource("client/resource/box.png"));
-			tiles[TipoTerreno.GOAL.getType()] = ImageIO.read(getResource("client/resource/goal.png"));
-			tiles[TipoTerreno.ROBOT_BOX.getType()] = ImageIO.read(getResource("client/resource/megaman_box.png"));
+			tiles[TipoTerreno.TREES.getType()] = ImageIO.read(getResource("client/view/resource/trees.png"));
+			tiles[TipoTerreno.GRASS.getType()] = ImageIO.read(getResource("client/view/resource/grass.png"));
+			tiles[TipoTerreno.WATER.getType()] = ImageIO.read(getResource("client/view/resource/water.png"));
+			tiles[TipoTerreno.ROBOT.getType()] = ImageIO.read(getResource("client/view/resource/megaman.png"));
+			tiles[TipoTerreno.BOX.getType()] = ImageIO.read(getResource("client/view/resource/box.png"));
+			tiles[TipoTerreno.GOAL.getType()] = ImageIO.read(getResource("client/view/resource/goal.png"));
+			tiles[TipoTerreno.ROBOT_BOX.getType()] = ImageIO.read(getResource("client/view/resource/megaman_box.png"));
 		} 
 		catch (IOException e) {
 			System.err.println("Falhou ao carregar os recursos: " + e.getMessage() );
@@ -88,6 +89,11 @@ public class GameView extends JPanel {
 			String serverHost = getServerhost();
 			
 			map = new GameMap(serverHost);
+			
+			botPosition bp = map.getBotInitialPosition();
+			
+			selectedx = bp.y;
+			selectedy = bp.x;
 			
 			autobotsRMI_cln = new CliAutobotsRMI(map, serverHost);
 			autobotsCORBA_cln = new CliAutobotsCorba(serverHost);
@@ -185,8 +191,6 @@ public class GameView extends JPanel {
 		y -= 0;
 		x /= ICON_WIDTH;
 		y /= ICON_WIDTH;
-
-		System.out.println("CLICK: " + x + "x" + y );
 		
 		repaint(0);
 		

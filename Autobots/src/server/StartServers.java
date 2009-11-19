@@ -1,10 +1,8 @@
+package server;
 import rpc.portMapper.pmapsvc;
-import server.SrvAutobotCorba;
-import server.SrvAutobotRMI;
-import server.SrvAutobotRPC;
 
 
-public class InitAll {
+public class StartServers {
 
 	
 	//	INICIANDO SERVIDOR RPC
@@ -18,9 +16,7 @@ public class InitAll {
 	//  EXECUTAR CORBA
 	//  5 - src/corba/cmd/orb.bat
 	//  6 - src/server/SrvAutobotCorba.java
-	//
-	//	INICIANDO A APLICAÇÃO
-	//	5 - src/client/engine/Main.java
+
 	public static void main(String[] args) {
 		
 		try {

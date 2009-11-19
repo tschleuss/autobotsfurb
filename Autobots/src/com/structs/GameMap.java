@@ -26,6 +26,8 @@ public class GameMap implements Map, Serializable {
 	
 	private CliAutobotsRPC autobotsRPC_cln;
 
+	private botPosition bp;
+	
 	public GameMap(String serverHost) {
 		
 		this.autobotsRPC_cln = new CliAutobotsRPC(serverHost);
@@ -39,11 +41,9 @@ public class GameMap implements Map, Serializable {
 	//{
 		private void loadBotPosition() {
 			
-			botPosition bp;
-			
 			try {
-				bp = this.autobotsRPC_cln.getBot();
-				units[bp.y][bp.x] = TipoTerreno.ROBOT.getType();
+				this.bp = this.autobotsRPC_cln.getBot();
+				units[this.bp.y][this.bp.x] = TipoTerreno.ROBOT.getType();
 			} catch (rpc_err e) {
 				e.printStackTrace();
 			}
@@ -62,6 +62,10 @@ public class GameMap implements Map, Serializable {
 			return this.autobotsRPC_cln;
 		}		
 	//}
+		
+	public botPosition getBotInitialPosition(){
+		return this.bp;
+	}
 
 	public void clearVisited() {
 		for (int x=0;x<getWidthInTiles();x++) {
