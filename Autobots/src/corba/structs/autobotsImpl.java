@@ -83,7 +83,7 @@ public class autobotsImpl extends autobotsPOA {
 		this.posX = boxPosX;
 		this.posY = boxPosY;
 		
-		ret.value =  getStepsString();
+		ret.value =  getStepsString( true );
 		
 	}
 
@@ -95,12 +95,12 @@ public class autobotsImpl extends autobotsPOA {
 		this.posX = targetPosX;
 		this.posY = targetPosY;		
 		
-		ret.value =  getStepsString();
+		ret.value =  getStepsString( false );
 	}
 	
-	private String getStepsString(){
+	private String getStepsString( boolean allowDiagMovement ){
 		
-		Caminho c = getPath();
+		Caminho c = getPath( allowDiagMovement );
 		String steps = "";
 		
 		for (Passo p : c.getSteps()) {
@@ -110,14 +110,14 @@ public class autobotsImpl extends autobotsPOA {
 		return steps;
 	}
 	
-	private Caminho getPath(){
+	private Caminho getPath( boolean allowDiagMovement ){
 		
 		GameMap map = new GameMap(this.serverhost);
 		
 		RastreadorCaminho finder = new RastreadorCaminho(map, 500, true);
 		
 		//inverte X e Y do destino
-		return finder.findPath( new UnitMover(TipoTerreno.ROBOT.getType()), this.botPosX, this.botPosY, this.posY, this.posX);		
+		return finder.findPath( new UnitMover(TipoTerreno.ROBOT.getType()), this.botPosX, this.botPosY, this.posY, this.posX, allowDiagMovement);		
 		
 	}
 	

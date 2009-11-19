@@ -45,12 +45,12 @@ public class SrvAutobotRMI extends UnicastRemoteObject implements Autobots {
 		Passo posXY = be.buscaElemento(type, map, x, y);
 
 		RastreadorCaminho finder = new RastreadorCaminho(map, 500, true);
-		return finder.findPath( new UnitMover(TipoTerreno.ROBOT.getType()), x, y, posXY.getX(), posXY.getY());
+		return finder.findPath( new UnitMover(TipoTerreno.ROBOT.getType()), x, y, posXY.getX(), posXY.getY(),true);
 	}
 	
 	public Caminho getPath(Map map, Mover mover, int selectedx, int selectedy, int x, int y){
 		RastreadorCaminho finder = new RastreadorCaminho(map, 500, true);
-		Caminho caminho = finder.findPath(mover, selectedx, selectedy, x, y);
+		Caminho caminho = finder.findPath(mover, selectedx, selectedy, x, y,true);
 		
 		if (caminho != null)
 			caminhosPercorridos.add(caminho.getLastStep());

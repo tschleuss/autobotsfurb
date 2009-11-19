@@ -46,7 +46,7 @@ public class RastreadorCaminho implements Rastreador {
 		}
 	}
 	
-	public Caminho findPath(Mover mover, int sx, int sy, int tx, int ty) {
+	public Caminho findPath(Mover mover, int sx, int sy, int tx, int ty,boolean allowDiagMovement) {
 		if (map.blocked(mover, tx,ty)) {
 			return null;
 		}
