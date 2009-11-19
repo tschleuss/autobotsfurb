@@ -1,0 +1,18 @@
+module autobots {
+	
+	struct boxAndGoalConfig {
+		short boxPosX;
+		short boxPosY;
+		short goalPosX;
+		short goalPosY;
+	};
+	
+  interface autobots {
+
+		boxAndGoalConfig getBoxPosition(in string map, in short botPosX, in short botPosY);
+		
+		void getPathToBox(in string serverhost, in short botPosX, in short botPosY, in short boxPosX, in short boxPosY, out string ret);	
+		void getPathToTarget(in string serverhost, in short botPosX, in short botPosY, in short targetPosX, in short targetPosY, out string ret);
+  };
+
+};
