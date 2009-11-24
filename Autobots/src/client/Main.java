@@ -1,8 +1,6 @@
 package client;
 
-import client.view.Janela;
-
-
+import client.view.RequestServers;
 
 public final class Main {
 	
@@ -18,9 +16,9 @@ public final class Main {
 	 */
 	public static void main(String[] argv) 
 	{
-		Janela j = new Janela();		//Instancia a jenela
-		j.setLocationRelativeTo(null);	//Centraliza a janela
-		j.setVisible(true);				//Exibe a janela
+		RequestServers servers = new RequestServers();
+		servers.setLocationRelativeTo(null);
+		servers.setVisible(true);
 	}
 	
 }

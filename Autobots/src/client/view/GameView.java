@@ -19,6 +19,7 @@ import rmi.interfaces.Map;
 import rpc.structs.botPosition;
 import client.CliAutobotsCorba;
 import client.CliAutobotsRMI;
+import client.view.RequestServers.HostsServers;
 
 import com.enumeration.TipoTerreno;
 import com.structs.Caminho;
@@ -53,13 +54,16 @@ public class GameView extends JPanel {
 	private Passo box;
 	private Passo goal;
 	
+	private HostsServers hosts =null;
+	
 	private boolean isHoldingBox;
 	
 	private List<Passo> pathsTraveled;
 
-	public GameView() 
+	public GameView(HostsServers hosts) 
 	{
 		super.setBackground( new Color(153, 153, 153) );
+		this.hosts = hosts;
 		this.initComponents();
 		this.initBotsComponents();
 	}
@@ -88,18 +92,16 @@ public class GameView extends JPanel {
 		boolean isRequested = requestServerInfo();
 		
 		if( isRequested ) 
-		{
-			String serverHost = getServerhost();
-			
-			map = new GameMap(serverHost);
+		{			
+			map = new GameMap(hosts.hostRPC);
 			
 			botPosition bp = map.getBotInitialPosition();
 			
 			selectedx = bp.y;
 			selectedy = bp.x;
 			
-			autobotsRMI_cln = new CliAutobotsRMI(map, serverHost);
-			autobotsCORBA_cln = new CliAutobotsCorba(serverHost);
+			autobotsRMI_cln = new CliAutobotsRMI(map, hosts.hostRMI);
+			autobotsCORBA_cln = new CliAutobotsCorba(hosts.hostCorba);
 		} 
 		else {
 			
@@ -115,36 +117,22 @@ public class GameView extends JPanel {
 	 */
 	private boolean requestServerInfo() 
 	{
+		
+		//servers.setSize(400, 600);
+		//servers.show();
+		
+		/*
 		int userRet = JOptionPane.showConfirmDialog(null, 
 			"Pressione o botão 'OK' para requisitar\nas informações do servidor", "Autobots", JOptionPane.OK_CANCEL_OPTION 
 		);
 		
 		if( userRet == JOptionPane.CANCEL_OPTION ) {
 			return false;
-		}
+		}*/
 		
 		return true;
 	}
-	/**
-	 * Recupera algumas informações
-	 * com o usuário.
-	 * @return
-	 */
-	private String getServerhost()
-	{
-		String host = "";
-		
-		host = String.valueOf( JOptionPane.showInputDialog( 
-			null , "Informe o endereço do servidor", "Conexão", JOptionPane.INFORMATION_MESSAGE, null, null, "localhost")
-		);
-		
-		if( host.equals("") || host.equals("null") )
-		{
-			host = "localhost";
-		}
-		
-		return host;
-	}
+	
 	
 	/**
 	 * Carrega as imagens com base na sua localização

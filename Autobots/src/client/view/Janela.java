@@ -17,18 +17,22 @@ import com.enumeration.TipoTerreno;
 import com.structs.Caminho;
 import com.structs.Passo;
 
-import corba.structs.autobots.boxAndGoalConfig;
 
 import client.CliAutobotsCorba;
+import client.view.RequestServers.HostsServers;
 
 import netbula.ORPC.rpc_err;
 import rpc.structs.mapLayoutPercent;
 
 public class Janela extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final int SCREEN_WIDTH = 510;
 	public static final int SCREEN_HEIGHT = 569;
-	
+
 	private GameView gameView = null;
 	private JButton botaoCaminhoBox = null;
 	private JButton botaoCaminhoTarget = null;
@@ -37,15 +41,17 @@ public class Janela extends JFrame {
 	private JButton botaoArvore = null;
 	private JButton botaoCaminhos = null;
 	private JButton botaoMapPercent = null;
-	
+	private HostsServers hosts = null;
+
 	CliAutobotsCorba autobotsCORBA_cln = null;
-	
-	public Janela() 
-	{
+
+	public Janela(HostsServers hosts) 
+	{		
 		super("AUTOBOTS");
 		super.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		super.setPreferredSize( new Dimension(SCREEN_WIDTH,SCREEN_HEIGHT) );
 		super.setResizable(false);
+		this.hosts = hosts;
 		this.initComponents();
 		this.bindingListeners();
 	}
@@ -56,7 +62,7 @@ public class Janela extends JFrame {
 	 */
 	private void initComponents() 
 	{
-		gameView	= new GameView();	//JPanel onde é desenhado o mapa
+		gameView	= new GameView(hosts);	//JPanel onde é desenhado o mapa
 		this.autobotsCORBA_cln	= this.gameView.getClienteCorba();		
 		
 		botaoBoxTarget	= new JButton();
