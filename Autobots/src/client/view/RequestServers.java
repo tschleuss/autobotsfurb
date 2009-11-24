@@ -15,10 +15,6 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 public class RequestServers extends JFrame {
-
-	private String serverRMI ="";
-	private String serverRPC ="";
-	private String serverCorba ="";
 	
 	private JTextField txtServerRPC;
 	private JTextField txtServerRMI;
@@ -106,16 +102,6 @@ public class RequestServers extends JFrame {
 		});
 	}
 
-	public String getServerCorba() {
-		return serverCorba;
-	}
-	public String getServerRMI() {
-		return serverRMI;
-	}
-	public String getServerRPC() {
-		return serverRPC;
-	}
-	
 	public class HostsServers{
 		public String hostCorba ="";
 		public String hostRPC ="";
