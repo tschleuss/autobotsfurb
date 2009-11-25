@@ -12,7 +12,6 @@ import java.io.InputStream;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import rmi.interfaces.Map;
@@ -97,8 +96,8 @@ public class GameView extends JPanel {
 			
 			botPosition bp = map.getBotInitialPosition();
 			
-			selectedx = bp.y;
-			selectedy = bp.x;
+			selectedx = bp.x;
+			selectedy = bp.y;
 			
 			autobotsRMI_cln = new CliAutobotsRMI(map, hosts.hostRMI);
 			autobotsCORBA_cln = new CliAutobotsCorba(hosts.hostCorba);

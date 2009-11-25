@@ -66,7 +66,6 @@ public class RequestServers extends JFrame {
 
 		botaoOK.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
 				try {
@@ -88,8 +87,7 @@ public class RequestServers extends JFrame {
 		});
 		
 		botaoCancel.addActionListener(new ActionListener() {
-
-			@Override
+			
 			public void actionPerformed(ActionEvent arg0) {
 
 				try {

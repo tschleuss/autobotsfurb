@@ -3,6 +3,7 @@ package server;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Random;
 
 import com.enumeration.TipoTerreno;
 
@@ -84,11 +85,13 @@ class autobotsServer extends Autobots_svcb {
 		
 		botPosition bp = null;
 		
+		Random r = new Random();
+		
 		while(!validpos){
 			
-			randomX = (int)(Math.random() * this.mc.linhas);
+			randomX = r.nextInt( this.mc.linhas -1);
 			mapLine = this.map[randomX].replaceAll("\\s", "");
-			randomY = (int)(Math.random() * this.mc.colunas);
+			randomY = r.nextInt(this.mc.colunas-1);
 			
 			randomPos = Integer.parseInt(Character.toString(mapLine.charAt(randomY)));
 			
@@ -98,6 +101,8 @@ class autobotsServer extends Autobots_svcb {
 				bp.x = randomX;
 				bp.y = randomY;
 				validpos = true;
+				System.out.println("X: " + bp.x + " | Y: "+ bp.y);
+				
 			}
 		}
 		return bp;
