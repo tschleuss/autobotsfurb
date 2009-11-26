@@ -96,8 +96,8 @@ public class GameView extends JPanel {
 			
 			botPosition bp = map.getBotInitialPosition();
 			
-			selectedx = bp.x;
-			selectedy = bp.y;
+			selectedx = bp.y;
+			selectedy = bp.x;
 			
 			autobotsRMI_cln = new CliAutobotsRMI(map, hosts.hostRMI);
 			autobotsCORBA_cln = new CliAutobotsCorba(hosts.hostCorba);
