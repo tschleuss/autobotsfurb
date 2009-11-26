@@ -88,48 +88,15 @@ public class GameView extends JPanel {
 			System.exit(0);
 		}
 		
-		boolean isRequested = requestServerInfo();
+		map = new GameMap(hosts.hostRPC);
 		
-		if( isRequested ) 
-		{			
-			map = new GameMap(hosts.hostRPC);
-			
-			botPosition bp = map.getBotInitialPosition();
-			
-			selectedx = bp.y;
-			selectedy = bp.x;
-			
-			autobotsRMI_cln = new CliAutobotsRMI(map, hosts.hostRMI);
-			autobotsCORBA_cln = new CliAutobotsCorba(hosts.hostCorba);
-		} 
-		else {
-			
-			System.exit(0);
-		}
+		botPosition bp = map.getBotInitialPosition();
 		
-	}
-	
-	/**
-	 * Recupera algumas informações
-	 * com o usuário.
-	 * @return
-	 */
-	private boolean requestServerInfo() 
-	{
+		selectedx = bp.y;
+		selectedy = bp.x;
 		
-		//servers.setSize(400, 600);
-		//servers.show();
-		
-		/*
-		int userRet = JOptionPane.showConfirmDialog(null, 
-			"Pressione o botão 'OK' para requisitar\nas informações do servidor", "Autobots", JOptionPane.OK_CANCEL_OPTION 
-		);
-		
-		if( userRet == JOptionPane.CANCEL_OPTION ) {
-			return false;
-		}*/
-		
-		return true;
+		autobotsRMI_cln = new CliAutobotsRMI(map, hosts.hostRMI);
+		autobotsCORBA_cln = new CliAutobotsCorba(hosts.hostCorba);
 	}
 	
 	
