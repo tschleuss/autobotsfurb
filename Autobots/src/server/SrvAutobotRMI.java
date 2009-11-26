@@ -41,6 +41,8 @@ public class SrvAutobotRMI extends UnicastRemoteObject implements Autobots {
 	
 	public Caminho getFasterWay(TipoTerreno type, Map map, int x, int y) throws RemoteException{
 
+		System.out.println("LOCALIZAR ELEMENTO");
+		
 		BuscaElemento be = new BuscaElemento();
 		Passo posXY = be.buscaElemento(type, map, x, y);
 
@@ -49,6 +51,9 @@ public class SrvAutobotRMI extends UnicastRemoteObject implements Autobots {
 	}
 	
 	public Caminho getPath(Map map, Mover mover, int selectedx, int selectedy, int x, int y){
+		
+		System.out.println("RECUPERAR CAMINHO ATE A COORDENADA");
+		
 		RastreadorCaminho finder = new RastreadorCaminho(map, 500, true);
 		Caminho caminho = finder.findPath(mover, selectedx, selectedy, x, y,true);
 		
@@ -59,8 +64,7 @@ public class SrvAutobotRMI extends UnicastRemoteObject implements Autobots {
 	}
 	
 	public ArrayList<Passo> getPathsTraveled() throws RemoteException {
+		System.out.println("RECUPERANDO TODOS OS CAMINHOS PERCORRIDOS");
 		return caminhosPercorridos;
-	}
-	
-	
+	}	
 }

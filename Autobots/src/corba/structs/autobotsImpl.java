@@ -19,6 +19,8 @@ public class autobotsImpl extends autobotsPOA {
 	
 	public boxAndGoalConfig getBoxPosition( String caminho, short botPosX , short botPosY) {
 	
+		System.out.println("RECUPERAR POSICAO DO BOX");
+		
 		int boxPosX, boxPosY;
 		int[] xy = new int[2];
 		
@@ -77,6 +79,8 @@ public class autobotsImpl extends autobotsPOA {
 
 	public void getPathToBox(String serverhost, short botPosX,short botPosY, short boxPosX, short boxPosY, org.omg.CORBA.StringHolder ret) {
 		
+		System.out.println("RECUPERAR CAMINHO ATE O BOX");
+		
 		this.serverhost = serverhost;
 		this.botPosX = botPosX;
 		this.botPosY = botPosY;
@@ -88,6 +92,8 @@ public class autobotsImpl extends autobotsPOA {
 	}
 
 	public void getPathToTarget(String serverhost, short botPosX,short botPosY, short targetPosX, short targetPosY,org.omg.CORBA.StringHolder ret) {
+		
+		System.out.println("RECUPERAR CAMINHO ATE O ALVO");
 		
 		this.serverhost = serverhost;
 		this.botPosX = botPosX;

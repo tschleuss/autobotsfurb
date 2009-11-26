@@ -19,6 +19,8 @@ class autobotsServer extends Autobots_svcb {
 	
     public mapConfig getMap() {
     	
+    	System.out.println("RECUPERAR MAPA");
+    	
     	this.map = readMap();
     	String printMap = "";
     	
@@ -79,6 +81,8 @@ class autobotsServer extends Autobots_svcb {
 	@Override
 	public botPosition getBotPosition() {
 		
+		System.out.println("RECUPERAR CAMINHO DO ROBO");
+		
 		String mapLine;
 		int randomX,randomY,randomPos;
 		boolean validpos = false;
@@ -110,6 +114,8 @@ class autobotsServer extends Autobots_svcb {
 
 	@Override
 	public mapLayoutPercent getLayout() {
+		
+		System.out.println("RECUPERAR PORCENTAGEM DE ELEMENTOS NO MAPA");
 		
 		mapLayoutPercent mlp = new mapLayoutPercent();
 		
